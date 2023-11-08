@@ -18,6 +18,7 @@ class CocktailService {
       final data = jsonDecode(response.body);
       final drinkData = data['drinks'][0];
       final cocktail = Cocktail(name: drinkData['strDrink']);
+      // print(cocktail.name);
       return cocktail;
     } else {
       throw Exception('HTTP Failed');

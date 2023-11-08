@@ -26,28 +26,44 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+class MyAppState extends ChangeNotifier {}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyHomePage extends StatelessWidget {
-  loadCocktail() async {
-    final cocktail = await CocktailService().getCocktail();
-    print(cocktail.name);
+class _MyHomePageState extends State<MyHomePage> {
+  late Future<Cocktail> futureCocktail;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCocktail = CocktailService().getCocktail();
   }
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
     return Scaffold(
       body: Column(
         children: [
-          Text('A random idea:'),
-          Text(appState.current.asLowerCase),
+          Text('Cocktail Ideas'),
+          FutureBuilder(
+              future: futureCocktail,
+              builder: ((context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  // print(snapshot.data);
+                  return Text(snapshot.data.name);
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
+              })),
           ElevatedButton(
               onPressed: () {
-                loadCocktail();
+                setState(() {
+                  futureCocktail = CocktailService().getCocktail();
+                });
               },
               child: Text('Surprise Me!')),
         ],
