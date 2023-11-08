@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_cocktail_app/cocktailService.dart';
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         title: 'Namer App',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
         ),
         home: MyHomePage(),
       ),
@@ -65,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   futureCocktail = CocktailService().getCocktail();
                 });
               },
-              child: Text('Surprise Me!')),
+              child: Text('New Cocktail!')),
         ],
       ),
     );
